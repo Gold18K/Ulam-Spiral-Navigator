@@ -5,8 +5,8 @@ let WORKS                    = [];
 let CURRENT_N_OF_WORKS       = 0;
 let WORKERS_WORK_SIZE        = 150;
 let NUMBER_OF_CORES_IN_USE   = Math.max(1, navigator.hardwareConcurrency - 1);
-let CANVAS_SIDE_LENGTH_X     = Math.floor(window.innerWidth / 0.95);
-let CANVAS_SIDE_LENGTH_Y     = Math.floor(window.innerHeight / 0.95);
+let CANVAS_SIDE_LENGTH_X     = Math.floor(window.innerWidth / 1);
+let CANVAS_SIDE_LENGTH_Y     = Math.floor(window.innerHeight / 1);
 let MOUSE_CURRENT_X          = 0;
 let MOUSE_CURRENT_Y          = 0;
 let MOUSE_DOWN_START_X       = 0;
@@ -591,10 +591,10 @@ document.getElementById('Change_Section_Side_length').addEventListener('keydown'
             return;
         }
 
+        document.getElementById("Change_Section_Side_length").style.outline = 'none';
+
         if (value === WORKERS_WORK_SIZE)
             return;
-
-        document.getElementById("Change_Section_Side_length").style.outline = 'none';
 
         WORKERS_WORK_SIZE = Number(value);
         update_Canvas();
@@ -620,10 +620,10 @@ document.getElementById('Change_Cores').addEventListener('keydown', function(eve
             return;
         }
        
+        document.getElementById("Change_Cores").style.outline = 'none';
+
         if (value === NUMBER_OF_CORES_IN_USE)
             return;
-
-        document.getElementById("Change_Cores").style.outline = 'none';
 
         NUMBER_OF_CORES_IN_USE = Number(value);
         update_Canvas();
@@ -661,32 +661,6 @@ document.getElementById('Change_Miller_Rabin_Repetitions').addEventListener('key
 }, { passive: false });
 
 window.onload = function() {
-
-    if (isMobileDevice()) {
-        document.body.innerHTML = '';
-
-        const only_PC = document.createElement("div");
-
-        only_PC.setAttribute("id", "Only_PC");
-        only_PC.innerHTML = `Site is (currently) only accessible from PC!`;
-
-        only_PC.style.position       = `absolute`;
-        only_PC.style.left           = `+50%`;
-        only_PC.style.top            = `+50%`;
-        only_PC.style.transform      = `translate(-50%, -50%)`;
-        only_PC.style.textAlign      = `center`;
-        only_PC.style.justifyContent = `center`;
-        only_PC.style.alignItems     = `center`;
-        only_PC.style.fontFamily     = `Poppins-Light`;
-        only_PC.style.fontSize       = `40px`;
-        only_PC.style.color          = `rgb( 75,  75,  75)`;
-        only_PC.style.userSelect     = `none`;
-
-        document.body.appendChild(only_PC);
-
-        return;
-    }
-
     generate_Ulam_Canvas();
     enable_Download();
     generate_Placeholders_Advanced();
