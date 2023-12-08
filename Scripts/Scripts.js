@@ -663,24 +663,28 @@ document.getElementById('Change_Miller_Rabin_Repetitions').addEventListener('key
 window.onload = function() {
 
     if (isMobileDevice()) {
-        document.getElementById('Bottom_Bar').style.top = "75vh";
+        document.body.innerHTML = '';
+        
+        let noSmartPhone = document.createElement("div");
 
-        document.getElementById('Number_Info').style.fontSize = "3vw";
+        noSmartPhone.setAttribute("id", "Only_PC");
+        noSmartPhone.innerHTML = `Site is (currently) only accessible from PC!`;
 
-        document.getElementById('Change_X').style.fontSize = "3vw";
-        document.getElementById('Change_X').style.width    = "25vw";        
+        noSmartPhone.style.position       = `absolute`;
+        noSmartPhone.style.left           = `+50%`;
+        noSmartPhone.style.top            = `+50%`;
+        noSmartPhone.style.transform      = `translate(-50%, -50%)`;
+        noSmartPhone.style.textAlign      = `center`;
+        noSmartPhone.style.justifyContent = `center`;
+        noSmartPhone.style.alignItems     = `center`;
+        noSmartPhone.style.fontFamily     = `Poppins-Light`;
+        noSmartPhone.style.fontSize       = `40px`;
+        noSmartPhone.style.color          = `rgb( 75,  75,  75)`;
+        noSmartPhone.style.userSelect     = `none`;
 
-        document.getElementById('Change_Y').style.fontSize = "3vw";
-        document.getElementById('Change_Y').style.width    = "25vw";        
+        document.body.appendChild(noSmartPhone);
 
-        document.getElementById('Change_Section_Side_length').style.fontSize = "3vw";
-        document.getElementById('Change_Section_Side_length').style.width    = "40vw";
-
-        document.getElementById('Change_Cores').style.fontSize = "3vw";
-        document.getElementById('Change_Cores').style.width    = "40vw";
-
-        document.getElementById('Change_Miller_Rabin_Repetitions').style.fontSize = "3vw";
-        document.getElementById('Change_Miller_Rabin_Repetitions').style.width    = "40vw";
+        return;
     }
 
     generate_Ulam_Canvas();
