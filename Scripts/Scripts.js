@@ -5,8 +5,8 @@ let WORKS                    = [];
 let CURRENT_N_OF_WORKS       = 0;
 let WORKERS_WORK_SIZE        = 150;
 let NUMBER_OF_CORES_IN_USE   = Math.max(1, navigator.hardwareConcurrency - 1);
-let CANVAS_SIDE_LENGTH_X     = Math.floor(window.innerWidth / 0.95);
-let CANVAS_SIDE_LENGTH_Y     = Math.floor(window.innerHeight / 0.95);
+let CANVAS_SIDE_LENGTH_X     = Math.floor(window.innerWidth);
+let CANVAS_SIDE_LENGTH_Y     = Math.floor(window.innerHeight);
 let MOUSE_CURRENT_X          = 0;
 let MOUSE_CURRENT_Y          = 0;
 let MOUSE_DOWN_START_X       = 0;
@@ -46,6 +46,16 @@ function generate_Ulam_Canvas() {
 
         MOVING_CANVAS_IMAGE_DATA = ctx.getImageData(0, 0, CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y);
     }, false);
+    ulam_canvas.addEventListener('touchstart', function(event) {
+        event.preventDefault();
+        
+        MOUSE_DOWN_START_X = Math.floor(Number(event.touches[0].clientX));
+        MOUSE_DOWN_START_Y = Math.floor(Number(event.touches[0].clientY));
+    
+        const ctx = ulam_canvas.getContext('2d', { willReadFrequently: true });
+    
+        MOVING_CANVAS_IMAGE_DATA = ctx.getImageData(0, 0, CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y);
+    }, { passive: false });
     ulam_canvas.addEventListener('mouseup', function(_event) {
 
         if (MOVING_CANVAS_IMAGE_DATA === null)
@@ -63,6 +73,24 @@ function generate_Ulam_Canvas() {
             update_Canvas();
 
     }, false);
+    ulam_canvas.addEventListener('touchend', function(_event) {
+        _event.preventDefault();
+
+        if (MOVING_CANVAS_IMAGE_DATA === null)
+            return;
+    
+        const OLD_TRANSLATION_X = TRANSLATION_X;
+        const OLD_TRANSLATION_Y = TRANSLATION_Y;
+    
+        TRANSLATION_X += BigInt(MOUSE_DOWN_START_X - MOUSE_CURRENT_X);
+        TRANSLATION_Y += BigInt(MOUSE_DOWN_START_Y - MOUSE_CURRENT_Y);
+    
+        MOVING_CANVAS_IMAGE_DATA = null;
+    
+        if (OLD_TRANSLATION_X !== TRANSLATION_X || OLD_TRANSLATION_Y !== TRANSLATION_Y)
+            update_Canvas();
+    
+    }, { passive: false });
     ulam_canvas.addEventListener('mousemove', function(event) {
         const rect   = ulam_canvas.getBoundingClientRect();
         const scaleX = ulam_canvas.width / rect.width;
@@ -76,8 +104,25 @@ function generate_Ulam_Canvas() {
         info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X},${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
                          `${number} is ${isPrimeMillerRabin(number, MILLER_RABIN_REPETITIONS) ? '' : 'not '}a prime number!`;
     }, false);
-
-    document.body.appendChild(ulam_canvas);
+    ulam_canvas.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    
+        const rect  = ulam_canvas.getBoundingClientRect();
+        const scaleX = ulam_canvas.width / rect.width;
+        const scaleY = ulam_canvas.height / rect.height;
+        
+        const x = Math.floor((Math.floor(Number(event.touches[0].clientX)) - rect.left) * scaleX);
+        const y = Math.floor((Math.floor(Number(event.touches[0].clientY)) - rect.top) * scaleY) + 1;
+    
+        const number = coordinates_to_number(BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X, BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y);
+    
+        const info = document.getElementById('Number_Info');
+    
+        info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X},${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
+                         `${number} is ${isPrimeMillerRabin(number, MILLER_RABIN_REPETITIONS) ? '' : 'not '}a prime number!`;
+    }, { passive: false });
+    
+    document.getElementById("Canvas_Slot").appendChild(ulam_canvas);
 
     update_Canvas();
 }
@@ -374,7 +419,38 @@ window.addEventListener('mousemove', function(event) {
 
     ctx.putImageData(MOVING_CANVAS_IMAGE_DATA, MOUSE_CURRENT_X - MOUSE_DOWN_START_X, MOUSE_CURRENT_Y - MOUSE_DOWN_START_Y);
 });
+window.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+
+    MOUSE_CURRENT_X = Math.floor(Number(event.touches[0].clientX));
+    MOUSE_CURRENT_Y = Math.floor(Number(event.touches[0].clientY));
+
+    if (MOVING_CANVAS_IMAGE_DATA === null)
+        return;
+    
+    if (WORKS.length !== 0) {
+        WORKS = [];
+        terminate_Workers();
+
+        document.body.style.cursor = 'default';
+        document.getElementById('Download_Button').style.cursor = 'pointer';
+    }
+
+    const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
+
+    ctx.fillStyle = COMPOSITE_COLOR;
+    ctx.fillRect(0, 0, CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y);
+
+    ctx.putImageData(MOVING_CANVAS_IMAGE_DATA, Math.floor(Number(event.touches[0].clientX)) - MOUSE_DOWN_START_X, Math.floor(Number(event.touches[0].clientY)) - MOUSE_DOWN_START_Y);
+}, { passive: false });
 window.addEventListener('mouseup', function() {
+
+    if (MOVING_CANVAS_IMAGE_DATA === null)
+        return;
+
+    document.getElementById('Ulam_Canvas').dispatchEvent(new Event('mouseup'));
+}, false);
+window.addEventListener('touchend', function() {
 
     if (MOVING_CANVAS_IMAGE_DATA === null)
         return;
@@ -492,10 +568,8 @@ document.getElementById('Change_Section_Side_length').addEventListener('keydown'
             return;
         }
 
-        if (value === WORKERS_WORK_SIZE) {
-            console.log("Nice!");
+        if (value === WORKERS_WORK_SIZE)
             return;
-        }
 
         document.getElementById("Change_Section_Side_length").style.outline = 'none';
 
