@@ -192,6 +192,15 @@
 
 			}
 
+			input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			
+			input[type=number] {
+				-moz-appearance: textfield;
+			}
+
 			@font-face {
 				font-family: 'Aladin';
 				src: url('Fonts/Aladin.ttf') format('truetype');
@@ -247,14 +256,14 @@
 
 			<input id="Change_X"
 					class="Change_X"
-					type="text"
+					type="number"
 					maxlength="10000"
 					placeholder="X:"
 					tabindex="-1">
 
 			<input id="Change_Y"
 					class="Change_Y"
-					type="text"
+					type="number"
 					maxlength="10000"
 					placeholder="Y:"
 					tabindex="-1">
@@ -274,21 +283,21 @@
 
 		   <input id="Change_Section_Side_length"
 				  class="Change_Section_Side_length"
-				  type="text"
+				  type="number"
 				  maxlength="10"
 				  placeholder=""
 				  tabindex="-1">
 
 		   <input id="Change_Cores"
 				  class="Change_Cores"
-				  type="text"
+				  type="number"
 				  maxlength="10"
 				  placeholder=""
 				  tabindex="-1">
 
 		   <input id="Change_Miller_Rabin_Repetitions"
 				  class="Change_Miller_Rabin_Repetitions"
-				  type="text"
+				  type="number"
 				  maxlength="10"
 				  placeholder=""
 				  tabindex="-1">
