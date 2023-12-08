@@ -16,20 +16,34 @@
 		<style>
 
 			.Number_Info {
+				position: absolute;
+				top: 4%;
+				left: 2vw;
 				background-color: rgba(225, 242, 255, 0.85);
 				border-radius: 0.5vh;
 				padding: 1vh;
 				font-family: Poppins-Light;
-				font-size: 0.8vw;
+				font-size: 1.5vh;
 				color: rgb(50, 50, 50);
 				display: flex;
 				align-items: center;
 			}
 
+			.Download_Button {
+				position: absolute;
+				top: 4%;
+				right: 2vw;
+				height: 5.2vh;
+				background-color: rgba(225, 242, 255, 0.85);
+				border-radius: 0.5vh;
+				padding: 1vh;
+				user-select: none;
+			}
+
 			.Change_X {
 				width: 10vw;
 				font-family: Poppins-Light;
-				font-size: 0.8vw;
+				font-size: 1.5vh;
 				color: rgb(50, 50, 50);
 				border: none;
 				outline: none;
@@ -42,7 +56,7 @@
 			.Change_Y {
 				width: 10vw;
 				font-family: Poppins-Light;
-				font-size: 0.8vw;
+				font-size: 1.5vh;
 				color: rgb(50, 50, 50);
 				border: none;
 				border-radius: 0.5vh;
@@ -53,7 +67,7 @@
 			.Change_Section_Side_length {
 				width:  12vw;
 				font-family: Poppins-Light;
-				font-size: 0.8vw;
+				font-size: 1.5vh;
 				color: rgb(50, 50, 50);
 				border: none;
 				outline: none;
@@ -66,7 +80,7 @@
 			.Change_Cores {
 				width:  12vw;
 				font-family: Poppins-Light;
-				font-size: 0.8vw;
+				font-size: 1.5vh;
 				color: rgb(50, 50, 50);
 				border: none;
 				border-radius: 0.5vh;
@@ -78,7 +92,7 @@
 			.Change_Miller_Rabin_Repetitions {
 				width:  12vw;
 				font-family: Poppins-Light;
-				font-size: 0.8vw;
+				font-size: 1.5vh;
 				color: rgb(50, 50, 50);
 				border: none;
 				border-radius: 0.5vh;
@@ -89,40 +103,90 @@
 			@media screen and (max-width: 800px) {
 
 				.Number_Info {
-					font-size: 2.3vw;
+					font-size: 2.3vh;
 					border-radius: 1vh;
+				}
+
+				.Download_Button {
+					height: 6.6vh;
 				}
 
 				.Change_X {
 					width: 25vw;
-					font-size: 2.3vw;
+					font-size: 2.3vh;
 					margin-bottom: 1vh;
 					border-radius: 1vh;
 				}
 
 				.Change_Y {
 					width: 25vw;
-					font-size: 2.3vw;
+					font-size: 2.3vh;
 					border-radius: 1vh;
 				}
 
 				.Change_Section_Side_length {
 					width: 44vw;
-					font-size: 2.3vw;
+					font-size: 2.3vh;
 					margin-bottom: 1vh;
 					border-radius: 1vh;
 				}
 
 				.Change_Cores {
 					width: 44vw;
-					font-size: 2.3vw;
+					font-size: 2.3vh;
 					margin-bottom: 1vh;
 					border-radius: 1vh;
 				}
 
 				.Change_Miller_Rabin_Repetitions {
 					width: 44vw;
-					font-size: 2.3vw;
+					font-size: 2.3vh;
+					border-radius: 1vh;
+				}
+
+			}
+
+			@media screen and (max-height: 400px) {
+
+				.Number_Info {
+					font-size: 5vh;
+					border-radius: 1vh;
+				}
+
+				.Download_Button {
+					height: 14.0vh;
+				}
+
+				.Change_X {
+					width: 25vw;
+					font-size: 5vh;
+					margin-bottom: 1vh;
+					border-radius: 1vh;
+				}
+
+				.Change_Y {
+					width: 25vw;
+					font-size: 5vh;
+					border-radius: 1vh;
+				}
+
+				.Change_Section_Side_length {
+					width: 44vw;
+					font-size: 5vh;
+					margin-bottom: 1vh;
+					border-radius: 1vh;
+				}
+
+				.Change_Cores {
+					width: 44vw;
+					font-size: 5vh;
+					margin-bottom: 1vh;
+					border-radius: 1vh;
+				}
+
+				.Change_Miller_Rabin_Repetitions {
+					width: 44vw;
+					font-size: 5vh;
 					border-radius: 1vh;
 				}
 
@@ -161,98 +225,75 @@
 					align-items: center;
 					justify-content: center;"></div>
 
-		<div id="Top_Bar"
+		<div id="Number_Info"
+			 class="Number_Info">Coordinates: (0,0)<br>1 is not a prime number!
+		</div>
+
+		<img src="Images/Download.png"
+			 id="Download_Button"
+			 class="Download_Button">
+		</img>
+
+		<div id="Change_Coordinates"
 			 style="position: absolute;
-			 		top: 4%;
+					bottom: 4%;
 					left: 2vw;
-					width: 96vw;
+					border-radius: 0.5vh;
+					font-family: Poppins-Light;
+					color: rgb(50, 50, 50);
 					display: flex;
-					justify-content: space-between;
-					pointer-events: none;";>
+					flex-direction: column;
+					align-items: center;">
 
-			<div id="Number_Info"
-				 class="Number_Info">
-				 Coordinates: (0,0)<br>1 is not a prime number!
-			</div>
+			<input id="Change_X"
+					class="Change_X"
+					type="text"
+					maxlength="10000"
+					placeholder="X:"
+					tabindex="-1">
 
-	   		<img src="Images/Download.png"
-				 id="Download_Button"
-				 style="background-color: rgba(225, 242, 255, 0.85);
-				 		height: 5vh;
-						border-radius: 0.5vh;
-						padding: 1vh;
-						user-select: none;
-						display: none;">
-			</img>
+			<input id="Change_Y"
+					class="Change_Y"
+					type="text"
+					maxlength="10000"
+					placeholder="Y:"
+					tabindex="-1">
 
 		</div>
 
-		<div id="Bottom_Bar"
+		<div id="Change_Advanced"
 			 style="position: absolute;
-			 		bottom: 4%;
-					left: 2vw;
-					width: 96vw;
+					bottom: 4%;
+					right: 2vw;
+					border-radius: 0.5vh;
+					font-family: Poppins-Light;
+					color: rgb(50, 50, 50);
 					display: flex;
-					justify-content: space-between;
-					align-items: flex-end;
-					pointer-events: none;";>
+					flex-direction: column;
+					align-items: center;">
 
-			<div id="Change_Coordinates"
-				 style="border-radius: 0.5vh;
-						font-family: Poppins-Light;
-						color: rgb(50, 50, 50);
-						display: flex;
-						flex-direction: column;
-						align-items: center;">
+		   <input id="Change_Section_Side_length"
+				  class="Change_Section_Side_length"
+				  type="text"
+				  maxlength="10"
+				  placeholder=""
+				  tabindex="-1">
 
-				<input id="Change_X"
-					   class="Change_X"
-					   type="text"
-					   maxlength="10000"
-					   placeholder="X:"
-					   tabindex="-1">
+		   <input id="Change_Cores"
+				  class="Change_Cores"
+				  type="text"
+				  maxlength="10"
+				  placeholder=""
+				  tabindex="-1">
 
-				<input id="Change_Y"
-					   class="Change_Y"
-					   type="text"
-					   maxlength="10000"
-					   placeholder="Y:"
-					   tabindex="-1">
+		   <input id="Change_Miller_Rabin_Repetitions"
+				  class="Change_Miller_Rabin_Repetitions"
+				  type="text"
+				  maxlength="10"
+				  placeholder=""
+				  tabindex="-1">
 
-			</div>
-
-			<div id="Change_Advanced"
-				 style="border-radius: 0.5vh;
-						font-family: Poppins-Light;
-						color: rgb(50, 50, 50);
-						display: flex;
-						flex-direction: column;
-						align-items: center;">
-
-				<input id="Change_Section_Side_length"
-					   class="Change_Section_Side_length"
-					   type="text"
-					   maxlength="10"
-					   placeholder=""
-					   tabindex="-1">
-
-				<input id="Change_Cores"
-					   class="Change_Cores"
-					   type="text"
-					   maxlength="10"
-					   placeholder=""
-					   tabindex="-1">
-
-				<input id="Change_Miller_Rabin_Repetitions"
-					   class="Change_Miller_Rabin_Repetitions"
-					   type="text"
-					   maxlength="10"
-					   placeholder=""
-					   tabindex="-1">
-
-			</div>
-
-		</div>
+	    </div>
 
 		<script src="Scripts/Scripts.js"></script>
 
