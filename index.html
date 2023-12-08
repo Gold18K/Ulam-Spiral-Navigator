@@ -15,6 +15,110 @@
 
 		<style>
 
+			.Number_Info {
+				background-color: rgba(225, 242, 255, 0.85);
+				border-radius: 0.5vh;
+				padding: 1vh;
+				font-family: Poppins-Light;
+				font-size: 0.8vw;
+				color: rgb(50, 50, 50);
+				display: flex;
+				align-items: center;
+			}
+
+			.Change_X {
+				width: 10vw;
+				font-family: Poppins-Light;
+				font-size: 0.8vw;
+				color: rgb(50, 50, 50);
+				border: none;
+				outline: none;
+				border-radius: 0.5vh;
+				background-color: rgba(225, 242, 255, 0.85);
+				padding: 1vh;
+				margin-bottom: 0.5vh;
+			}
+
+			.Change_Y {
+				width: 10vw;
+				font-family: Poppins-Light;
+				font-size: 0.8vw;
+				color: rgb(50, 50, 50);
+				border: none;
+				border-radius: 0.5vh;
+				background-color: rgba(225, 242, 255, 0.85);
+				padding: 1vh;
+			}
+
+			.Change_Section_Side_length {
+				width:  12vw;
+				font-family: Poppins-Light;
+				font-size: 0.8vw;
+				color: rgb(50, 50, 50);
+				border: none;
+				outline: none;
+				border-radius: 0.5vh;
+				background-color: rgba(225, 242, 255, 0.85);
+				padding: 1vh;
+				margin-bottom: 0.5vh;
+			}
+
+			.Change_Cores {
+				width:  12vw;
+				font-family: Poppins-Light;
+				font-size: 0.8vw;
+				color: rgb(50, 50, 50);
+				border: none;
+				border-radius: 0.5vh;
+				background-color: rgba(225, 242, 255, 0.85);
+				padding: 1vh;
+				margin-bottom: 0.5vh;
+			}
+
+			.Change_Miller_Rabin_Repetitions {
+				width:  12vw;
+				font-family: Poppins-Light;
+				font-size: 0.8vw;
+				color: rgb(50, 50, 50);
+				border: none;
+				border-radius: 0.5vh;
+				background-color: rgba(225, 242, 255, 0.85);
+				padding: 1vh;
+			}
+
+			@media screen and (max-width: 800px) {
+
+				.Number_Info {
+					font-size: 3vw;
+				}
+
+				.Change_X {
+					width: 25vw;
+					font-size: 3vw;
+				}
+
+				.Change_Y {
+					width: 25vw;
+					font-size: 3vw;
+				}
+
+				.Change_Section_Side_length {
+					width: 44vw;
+					font-size: 3vw;
+				}
+
+				.Change_Cores {
+					width: 44vw;
+					font-size: 3vw;
+				}
+
+				.Change_Miller_Rabin_Repetitions {
+					width: 44vw;
+					font-size: 3vw;
+				}
+
+			}
+
 			@font-face {
 				font-family: 'Aladin';
 				src: url('Fonts/Aladin.ttf') format('truetype');
@@ -30,8 +134,8 @@
 	</head>
 
 	<body style="background-color: rgb(225 242 255);
-				 height: 100vh;
-				 width: 100vw;
+				 height: 100%;
+				 width: 100%;
 				 display: flex;
 				 overflow: hidden;
 				 justify-content: center;
@@ -39,8 +143,8 @@
 
 		<div id="Canvas_Slot"
 			 style="background-color: rgb(225 242 255);
-					height: 100vh;
-					width: 100vw;
+					height: 100%;
+					width: 100%;
 					position: fixed;
 					top: 0;
 					left: 0;
@@ -50,21 +154,15 @@
 
 		<div id="Top_Bar"
 			 style="position: absolute;
-			 		top: 4vh;
+			 		top: 4%;
 					left: 2vw;
 					width: 96vw;
 					display: flex;
 					justify-content: space-between;";>
 
 			<div id="Number_Info"
-				 style="background-color: rgba(225, 242, 255, 0.85);
-						border-radius: 0.5vh;
-						padding: 1vh;
-						font-family: Poppins-Light;
-						font-size: 0.8vw;
-						color: rgb(50, 50, 50);
-						display: flex;
-						align-items: center;">Coordinates: (0,0)<br>1 is not a prime number!
+				 class="Number_Info">
+				 Coordinates: (0,0)<br>1 is not a prime number!
 			</div>
 
 	   		<img src="Images/Download.png"
@@ -81,7 +179,7 @@
 
 		<div id="Bottom_Bar"
 			 style="position: absolute;
-			 		top: 84vh;
+			 		bottom: 4%;
 					left: 2vw;
 					width: 96vw;
 					display: flex;
@@ -97,36 +195,18 @@
 						align-items: center;">
 
 				<input id="Change_X"
+					   class="Change_X"
 					   type="text"
 					   maxlength="10000"
 					   placeholder="X:"
-					   tabindex="-1"
-					   style="height: 2vh;
-					   		  width: 10vw;
-					   		  font-family: Poppins-Light;
-							  font-size: 0.8vw;
-							  color: rgb(50, 50, 50);
-							  border: none;
-							  outline: none;
-							  border-radius: 0.5vh;
-							  background-color: rgba(225, 242, 255, 0.85);
-							  padding: 1vh;
-							  margin-bottom: 0.5vh;">
+					   tabindex="-1">
 
 				<input id="Change_Y"
+					   class="Change_Y"
 					   type="text"
 					   maxlength="10000"
 					   placeholder="Y:"
-					   tabindex="-1"
-					   style="height: 2vh;
-					   		  width: 10vw;
-							  font-family: Poppins-Light;
-							  font-size: 0.8vw;
-							  color: rgb(50, 50, 50);
-							  border: none;
-							  border-radius: 0.5vh;
-							  background-color: rgba(225, 242, 255, 0.85);
-							  padding: 1vh;">
+					   tabindex="-1">
 
 			</div>
 
@@ -139,52 +219,25 @@
 						align-items: center;">
 
 				<input id="Change_Section_Side_length"
+					   class="Change_Section_Side_length"
 					   type="text"
 					   maxlength="10"
 					   placeholder=""
-					   tabindex="-1"
-					   style="height: 2vh;
-					   		  width:  12vw;
-					   		  font-family: Poppins-Light;
-							  font-size: 0.8vw;
-							  color: rgb(50, 50, 50);
-							  border: none;
-							  outline: none;
-							  border-radius: 0.5vh;
-							  background-color: rgba(225, 242, 255, 0.85);
-							  padding: 1vh;
-							  margin-bottom: 0.5vh;">
+					   tabindex="-1">
 
 				<input id="Change_Cores"
+					   class="Change_Cores"
 					   type="text"
 					   maxlength="10"
 					   placeholder=""
-					   tabindex="-1"
-					   style="height: 2vh;
-					   		  width:  12vw;
-							  font-family: Poppins-Light;
-							  font-size: 0.8vw;
-							  color: rgb(50, 50, 50);
-							  border: none;
-							  border-radius: 0.5vh;
-							  background-color: rgba(225, 242, 255, 0.85);
-							  padding: 1vh;
-							  margin-bottom: 0.5vh;">
+					   tabindex="-1">
 
 				<input id="Change_Miller_Rabin_Repetitions"
+					   class="Change_Miller_Rabin_Repetitions"
 					   type="text"
 					   maxlength="10"
 					   placeholder=""
-					   tabindex="-1"
-					   style="height: 2vh;
-							  width:  12vw;
-							  font-family: Poppins-Light;
-							  font-size: 0.8vw;
-							  color: rgb(50, 50, 50);
-							  border: none;
-							  border-radius: 0.5vh;
-							  background-color: rgba(225, 242, 255, 0.85);
-							  padding: 1vh;">
+					   tabindex="-1">
 
 			</div>
 
