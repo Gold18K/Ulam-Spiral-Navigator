@@ -5,8 +5,8 @@ let WORKS                    = [];
 let CURRENT_N_OF_WORKS       = 0;
 let WORKERS_WORK_SIZE        = 150;
 let NUMBER_OF_CORES_IN_USE   = Math.max(1, navigator.hardwareConcurrency - 1);
-let CANVAS_SIDE_LENGTH_X     = Math.floor(window.innerWidth);
-let CANVAS_SIDE_LENGTH_Y     = Math.floor(window.innerHeight);
+let CANVAS_SIDE_LENGTH_X     = Math.floor(window.innerWidth / 0.95);
+let CANVAS_SIDE_LENGTH_Y     = Math.floor(window.innerHeight / 0.95);
 let MOUSE_CURRENT_X          = 0;
 let MOUSE_CURRENT_Y          = 0;
 let MOUSE_DOWN_START_X       = 0;
@@ -68,8 +68,6 @@ function generate_Ulam_Canvas() {
         MOUSE_DOWN_START_X = Math.floor(Number(event.touches[0].clientX));
         MOUSE_DOWN_START_Y = Math.floor(Number(event.touches[0].clientY));
     
-        console.log("Start:", MOUSE_DOWN_START_X, MOUSE_DOWN_START_Y);
-
         const ctx = ulam_canvas.getContext('2d', { willReadFrequently: true });
     
         MOVING_CANVAS_IMAGE_DATA = ctx.getImageData(0, 0, CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y);
@@ -93,8 +91,6 @@ function generate_Ulam_Canvas() {
     }, false);
     ulam_canvas.addEventListener('touchend', function(_event) {
         _event.preventDefault();
-
-        console.log("End:", MOUSE_CURRENT_X, MOUSE_CURRENT_Y);
 
         if (MOVING_CANVAS_IMAGE_DATA === null)
             return;
@@ -657,21 +653,22 @@ window.onload = function() {
         document.getElementById('Number_Info').style.fontSize = "3vw";
 
         document.getElementById('Change_X').style.fontSize = "3vw";
+        document.getElementById('Change_X').style.width = "25vw";        
 
         document.getElementById('Change_Y').style.fontSize = "3vw";
+        document.getElementById('Change_Y').style.width = "25vw";        
 
         document.getElementById('Change_Section_Side_length').style.fontSize = "3vw";
-        document.getElementById('Change_Section_Side_length').style.width    = null;
+        document.getElementById('Change_Section_Side_length').style.width    = "40vw";
 
         document.getElementById('Change_Cores').style.fontSize = "3vw";
-        document.getElementById('Change_Cores').style.width    = null;
+        document.getElementById('Change_Cores').style.width    = "40vw";
 
         document.getElementById('Change_Miller_Rabin_Repetitions').style.fontSize = "3vw";
-        document.getElementById('Change_Miller_Rabin_Repetitions').style.width    = null;
+        document.getElementById('Change_Miller_Rabin_Repetitions').style.width    = "40vw";
     }
 
+    generate_Ulam_Canvas();
+    enable_Download();
+    generate_Placeholders_Advanced();
 };
-
-generate_Ulam_Canvas();
-enable_Download();
-generate_Placeholders_Advanced();
