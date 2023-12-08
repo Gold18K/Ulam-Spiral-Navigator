@@ -664,25 +664,25 @@ window.onload = function() {
 
     if (isMobileDevice()) {
         document.body.innerHTML = '';
-        
-        let noSmartPhone = document.createElement("div");
 
-        noSmartPhone.setAttribute("id", "Only_PC");
-        noSmartPhone.innerHTML = `Site is (currently) only accessible from PC!`;
+        const only_PC = document.createElement("div");
 
-        noSmartPhone.style.position       = `absolute`;
-        noSmartPhone.style.left           = `+50%`;
-        noSmartPhone.style.top            = `+50%`;
-        noSmartPhone.style.transform      = `translate(-50%, -50%)`;
-        noSmartPhone.style.textAlign      = `center`;
-        noSmartPhone.style.justifyContent = `center`;
-        noSmartPhone.style.alignItems     = `center`;
-        noSmartPhone.style.fontFamily     = `Poppins-Light`;
-        noSmartPhone.style.fontSize       = `40px`;
-        noSmartPhone.style.color          = `rgb( 75,  75,  75)`;
-        noSmartPhone.style.userSelect     = `none`;
+        only_PC.setAttribute("id", "Only_PC");
+        only_PC.innerHTML = `Site is (currently) only accessible from PC!`;
 
-        document.body.appendChild(noSmartPhone);
+        only_PC.style.position       = `absolute`;
+        only_PC.style.left           = `+50%`;
+        only_PC.style.top            = `+50%`;
+        only_PC.style.transform      = `translate(-50%, -50%)`;
+        only_PC.style.textAlign      = `center`;
+        only_PC.style.justifyContent = `center`;
+        only_PC.style.alignItems     = `center`;
+        only_PC.style.fontFamily     = `Poppins-Light`;
+        only_PC.style.fontSize       = `40px`;
+        only_PC.style.color          = `rgb( 75,  75,  75)`;
+        only_PC.style.userSelect     = `none`;
+
+        document.body.appendChild(only_PC);
 
         return;
     }
