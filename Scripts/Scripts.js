@@ -87,7 +87,7 @@ function enable_Download() {
 function generate_Placeholders_Advanced() {
     document.getElementById('Change_Section_Side_length').placeholder      = `Section side length: [1-${Math.max(CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y)}]`;
     document.getElementById('Change_Cores').placeholder                    = `Number of cores: [1-${Math.max(1, navigator.hardwareConcurrency)}]`;
-    document.getElementById('Change_Miller_Rabin_Repetitions').placeholder = `Miller Rabin repetitions: [1-∞)`;
+    document.getElementById('Change_Miller_Rabin_Repetitions').placeholder = `Miller Rabin repetitions: [1-100]`;
 }
 function resize_Canvas() {
 
@@ -541,7 +541,7 @@ document.getElementById('Change_Miller_Rabin_Repetitions').addEventListener('key
 
         const value = Number(document.getElementById("Change_Miller_Rabin_Repetitions").value);
 
-        if (value < 1) {
+        if (value < 1 || value > 100) {
             document.getElementById("Change_Miller_Rabin_Repetitions").style.outline = ERROR_CONTOUR;
             return;
         }
