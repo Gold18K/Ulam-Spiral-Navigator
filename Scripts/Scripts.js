@@ -524,10 +524,12 @@ document.getElementById('Change_X').addEventListener('keydown', function(event) 
 
             update_Canvas();
         }
-        
+
+        this.blur();
+        event.preventDefault();
     }
 
-}, false);
+}, { passive: false });
 document.getElementById('Change_Y').addEventListener('keydown', function(event) {
 
     if (event.key === 'Enter') {
@@ -567,10 +569,12 @@ document.getElementById('Change_Y').addEventListener('keydown', function(event) 
 
             update_Canvas();
         }
-        
+
+        this.blur();
+        event.preventDefault();
     }
 
-}, false);
+}, { passive: false });
 document.getElementById('Change_Section_Side_length').addEventListener('keydown', function(event) {
 
     if (event.key === 'Enter') {
@@ -594,9 +598,12 @@ document.getElementById('Change_Section_Side_length').addEventListener('keydown'
 
         WORKERS_WORK_SIZE = Number(value);
         update_Canvas();
+
+        this.blur();
+        event.preventDefault();
     }
 
-}, false);
+}, { passive: false });
 document.getElementById('Change_Cores').addEventListener('keydown', function(event) {
 
     if (event.key === 'Enter') {
@@ -620,9 +627,12 @@ document.getElementById('Change_Cores').addEventListener('keydown', function(eve
 
         NUMBER_OF_CORES_IN_USE = Number(value);
         update_Canvas();
+
+        this.blur();
+        event.preventDefault();
     }
 
-}, false);
+}, { passive: false });
 document.getElementById('Change_Miller_Rabin_Repetitions').addEventListener('keydown', function(event) {
 
     if (event.key === 'Enter') {
@@ -643,20 +653,25 @@ document.getElementById('Change_Miller_Rabin_Repetitions').addEventListener('key
 
         MILLER_RABIN_REPETITIONS = Number(value);
         update_Canvas();
+
+        this.blur();
+        event.preventDefault();
     }
 
-}, false);
+}, { passive: false });
 
 window.onload = function() {
 
     if (isMobileDevice()) {
+        document.getElementById('Bottom_Bar').style.top = "75vh";
+
         document.getElementById('Number_Info').style.fontSize = "3vw";
 
         document.getElementById('Change_X').style.fontSize = "3vw";
-        document.getElementById('Change_X').style.width = "25vw";        
+        document.getElementById('Change_X').style.width    = "25vw";        
 
         document.getElementById('Change_Y').style.fontSize = "3vw";
-        document.getElementById('Change_Y').style.width = "25vw";        
+        document.getElementById('Change_Y').style.width    = "25vw";        
 
         document.getElementById('Change_Section_Side_length').style.fontSize = "3vw";
         document.getElementById('Change_Section_Side_length').style.width    = "40vw";
