@@ -1,7 +1,4 @@
 # Ulam-Spiral-Navigator
-An interactive site that allows you to navigate the Ulam spiral, with your hardware as the only limit, accessible from here:
-
-https://gold18k.github.io/Ulam-Spiral-Navigator/
 
 Use the mouse to move around the Ulam spiral by clicking and dragging!
 
