@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en-IT">
+
+	<head>
+	
+		<title>Ulam Spiral</title>
+		
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+		
+		<!-- Download.png | Download icon created by Creatype - Flaticon -->
+		<!-- Flaticon.png | Random created by Royyan Wijaya   - Flaticon -->
+		<link rel="icon" type="image/png" href="Images/Flaticon.png">
+
+		<style>
+
+			@font-face {
+				font-family: 'Aladin';
+				src: url('Fonts/Aladin.ttf') format('truetype');
+			}
+			
+			@font-face {
+				font-family: 'Poppins-Light';
+				src: url('Fonts/Poppins-Light.ttf') format('truetype');
+			}
+
+		</style>
+
+	</head>
+
+	<body style="background-color: rgb(225 242 255);
+				 height: 100vh;
+				 width: 100vw;
+				 display: flex;
+				 overflow: hidden;
+				 justify-content: center;
+				 align-items: center;">
+
+		<div id="Top_Bar"
+			 style="position: absolute;
+			 		top: 4vh;
+					left: 2vw;
+					width: 96vw;
+					display: flex;
+					justify-content: space-between;";>
+
+			<div id="Number_Info"
+				 style="background-color: rgba(225, 242, 255, 0.85);
+						border-radius: 0.5vh;
+						padding: 1vh;
+						white-space: pre-wrap;
+						font-family: Poppins-Light;
+						font-size: 0.8vw;
+						color: rgb(50, 50, 50);
+						display: flex;
+						align-items: center;">Coordinates: (0,0)<br>1 is not a prime number!
+			</div>
+
+	   		<img src="Images/Download.png"
+				 id="Download_Button"
+				 style="background-color: rgba(225, 242, 255, 0.85);
+				 		height: 5vh;
+						border-radius: 0.5vh;
+						padding: 1vh;
+						user-select: none;
+						display: none;">
+			</img>
+
+		</div>
+
+		<div id="Bottom_Bar"
+			 style="position: absolute;
+			 		top: 84vh;
+					left: 2vw;
+					width: 96vw;
+					display: flex;
+					justify-content: space-between;
+					align-items: flex-end;";>
+
+			<div id="Change_Coordinates"
+				 style="border-radius: 0.5vh;
+						white-space: pre-wrap;
+						font-family: Poppins-Light;
+						font-size: 0.8vw;
+						color: rgb(50, 50, 50);
+						display: flex;
+						flex-direction: column;
+						align-items: center;">
+
+				<input id="Change_X"
+					   type="text"
+					   maxlength="10000"
+					   placeholder="X:"
+					   style="height: 2vh;
+					   		  font-family: Poppins-Light;
+							  font-size: 0.8vw;
+							  color: rgb(50, 50, 50);
+							  border: none;
+							  outline: none;
+							  border-radius: 0.5vh;
+							  white-space: pre-wrap;
+							  background-color: rgba(225, 242, 255, 0.85);
+							  padding: 1vh;
+							  margin-bottom: 0.5vh;">
+
+				<input id="Change_Y"
+					   type="text"
+					   maxlength="10000"
+					   placeholder="Y:"
+					   style="height: 2vh;
+							  font-family: Poppins-Light;
+							  font-size: 0.8vw;
+							  color: rgb(50, 50, 50);
+							  border: none;
+							  border-radius: 0.5vh;
+							  white-space: pre-wrap;
+							  background-color: rgba(225, 242, 255, 0.85);
+							  padding: 1vh;">
+
+			</div>
+
+			<div id="Change_Advanced"
+				 style="border-radius: 0.5vh;
+						white-space: pre-wrap;
+						font-family: Poppins-Light;
+						font-size: 0.8vw;
+						color: rgb(50, 50, 50);
+						display: flex;
+						flex-direction: column;
+						align-items: center;">
+
+				<input id="Change_Section_Side_length"
+					   type="text"
+					   maxlength="10"
+					   placeholder=""
+					   style="height: 2vh;
+					   		  width:  12vw;
+					   		  font-family: Poppins-Light;
+							  font-size: 0.8vw;
+							  color: rgb(50, 50, 50);
+							  border: none;
+							  outline: none;
+							  border-radius: 0.5vh;
+							  white-space: pre-wrap;
+							  background-color: rgba(225, 242, 255, 0.85);
+							  padding: 1vh;
+							  margin-bottom: 0.5vh;">
+
+				<input id="Change_Cores"
+					   type="text"
+					   maxlength="10"
+					   placeholder=""
+					   style="height: 2vh;
+					   		  width:  12vw;
+							  font-family: Poppins-Light;
+							  font-size: 0.8vw;
+							  color: rgb(50, 50, 50);
+							  border: none;
+							  border-radius: 0.5vh;
+							  white-space: pre-wrap;
+							  background-color: rgba(225, 242, 255, 0.85);
+							  padding: 1vh;
+							  margin-bottom: 0.5vh;">
+
+				<input id="Change_Miller_Rabin_Repetitions"
+					   type="text"
+					   maxlength="10"
+					   placeholder=""
+					   style="height: 2vh;
+							  width:  12vw;
+							  font-family: Poppins-Light;
+							  font-size: 0.8vw;
+							  color: rgb(50, 50, 50);
+							  border: none;
+							  border-radius: 0.5vh;
+							  white-space: pre-wrap;
+							  background-color: rgba(225, 242, 255, 0.85);
+							  padding: 1vh;">
+
+			</div>
+
+		</div>
+
+		<script src="Scripts/Scripts.js"></script>
+
+	</body>
+	
+</html>
