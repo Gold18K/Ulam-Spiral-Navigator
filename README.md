@@ -6,7 +6,7 @@ The top left of the window will tell you the current coordinates in relation to 
 
 The bottom left of the window allows you to choose a set of coordinates you wish to visit.
 
-The bottom right of the windows allow you to choose:
+The bottom right of the window allow you to choose:
 - The side length of the section a single Worker is allowed to compute at a time (Default value: 150);
 - The number of cores the site is allowed to use to compute the spiral (Default value: The number of cores of your CPU minus one);
 - The number of cycles the Miller Rabin algorithm must use to check for primality (Default value: 6);
