@@ -1,4 +1,4 @@
-# Ulam-Spiral-Navigator
+# Ulam Spiral Navigator
 
 Use the mouse to move around the Ulam spiral by clicking and dragging!
 
