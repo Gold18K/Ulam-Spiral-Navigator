@@ -261,7 +261,6 @@ function isPrimeMillerRabin(n, k) {
     if (n <= 1n) return false;
     if (n <= 3n) return true;
   
-    // Write n as d * 2^r + 1
     let r = 0n;
     let d = n - 1n;
     while (d % 2n === 0n) {
@@ -269,7 +268,6 @@ function isPrimeMillerRabin(n, k) {
       r++;
     }
   
-    // Witness loop
     for (let i = 0; i < k; i++) {
         const a = randomBigIntInRange(2n, n - 1n);
         let x = modPow(a, d, n);
@@ -302,8 +300,8 @@ function modPow(base, exponent, modulus) {
     return result;
 }
 function randomBigIntInRange(a, b) {
-    const range = b - a + 1n; // Range = b - a + 1
-    const bits  = range.toString(2).length; // Number of bits needed
+    const range = b - a + 1n;
+    const bits  = range.toString(2).length;
 
     let randBigInt;
     do {
@@ -312,9 +310,9 @@ function randomBigIntInRange(a, b) {
             randBigInt <<= 1n;
             randBigInt |= BigInt(Math.random() > 0.5 ? 1 : 0);
         }
-    } while (randBigInt >= range); // Repeat if randBigInt is outside the range
+    } while (randBigInt >= range);
 
-    return randBigInt + a; // Shift to the desired range
+    return randBigInt + a;
 }
 function number_to_coordinates(n) {
     let k = Math.ceil((Math.sqrt(n) - 1) / 2);
@@ -376,10 +374,9 @@ function collatz_Steps(_n) {
 }
 function shuffle_Array(_array) {
     for (let i = _array.length - 1; i > 0; i--) {
-        // Generate a random index less than the current index
+
         const j = Math.floor(Math.random() * (i + 1));
 
-        // Swap elements at indices i and j
         [_array[i], _array[j]] = [_array[j], _array[i]];
     }
     return _array;
