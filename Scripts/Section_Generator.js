@@ -122,20 +122,22 @@ function collatz_Steps(_n) {
 onmessage = function(_event) {
     const result = [];
 
-    for (let y = _event.data.y_start; y != _event.data.y_end; ++y) {
+    for (let y = _event.data.work.y_start; y != _event.data.work.y_end; ++y) {
         const row = [];
 
-        for (let x = _event.data.x_start; x != _event.data.x_end; ++x) {
-            const test = coordinates_to_number(BigInt(x - Math.floor(_event.data.canvas_x / 2)) + _event.data.translation_x,
-                                               BigInt(Math.floor(_event.data.canvas_y / 2) - y) - _event.data.translation_y);
+        for (let x = _event.data.work.x_start; x != _event.data.work.x_end; ++x) {
+            const test = coordinates_to_number(BigInt(x - Math.floor(_event.data.work.canvas_x / 2)) + _event.data.work.translation_x,
+                                               BigInt(Math.floor(_event.data.work.canvas_y / 2) - y) - _event.data.work.translation_y);
 
-            row.push([x, y, isPrimeMillerRabin(test, _event.data.primality_repetitions) ? true : false]);
+            row.push([x, y, isPrimeMillerRabin(test, _event.data.work.primality_repetitions) ? true : false]);
         }
 
         result.push(row);
     }
 
     postMessage({
+        id:   _event.data.id,
         grid: result
     });
+
 }
