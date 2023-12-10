@@ -590,12 +590,13 @@ document.getElementById('Change_X').addEventListener('keydown', function(event) 
     if (event.key === 'Enter') {
         const is_X_Legal = is_Legal_BigInt("Change_X");
         const is_Y_Legal = is_Legal_BigInt("Change_Y");
-
+        
         if (!is_X_Legal)
             document.getElementById("Change_X").style.outline = ERROR_CONTOUR;
 
         if (!is_Y_Legal)
             document.getElementById("Change_Y").style.outline = ERROR_CONTOUR; 
+
 
         if (is_X_Legal && is_Y_Legal) {
             document.getElementById("Change_X").style.outline = 'none';
@@ -607,8 +608,9 @@ document.getElementById('Change_X').addEventListener('keydown', function(event) 
             if (new_Translation_X === TRANSLATION_X && new_Translation_Y === TRANSLATION_Y)
                 return;
 
+
             TRANSLATION_X = BigInt(document.getElementById("Change_X").value);
-            TRANSLATION_Y = BigInt(document.getElementById("Change_Y").value);
+            TRANSLATION_Y = -BigInt(document.getElementById("Change_Y").value);
 
             const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
 
@@ -649,7 +651,7 @@ document.getElementById('Change_Y').addEventListener('keydown', function(event) 
                 return;
             
             TRANSLATION_X = BigInt(document.getElementById("Change_X").value);
-            TRANSLATION_Y = BigInt(document.getElementById("Change_Y").value);
+            TRANSLATION_Y = -BigInt(document.getElementById("Change_Y").value);
 
             const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
 
