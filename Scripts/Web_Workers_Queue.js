@@ -2,13 +2,13 @@
 export class Web_Workers_Queue {
 
     // Constructor
-    constructor(_number_of_workers, _on_message) {
+    constructor(_worker_path, _number_of_workers, _on_message) {
         this.#number_of_workers = _number_of_workers;
         this.#jobs            = [];
         this.#workers         = [];
 
         for (let i = 0; i != _number_of_workers; ++i)
-            this.#workers.push(new Worker('Scripts/Section_Generator.js'));
+            this.#workers.push(new Worker(_worker_path));
 
         for (let i = 0; i != _number_of_workers; ++i) {
             this.#workers[i].onmessage = (_event) => {
@@ -25,7 +25,8 @@ export class Web_Workers_Queue {
         for (let i = 0; i != _number_of_workers; ++i)
             this.#avaliable_workers_IDs.push(i);
 
-        this.#on_message = _on_message;
+        this.#on_message  = _on_message;
+        this.#worker_path = _worker_path;
     }
 
     // Functions
@@ -53,7 +54,7 @@ export class Web_Workers_Queue {
         this.#workers = [];
 
         for (let i = 0; i != this.#number_of_workers; ++i)
-            this.#workers.push(new Worker('Scripts/Section_Generator.js'));
+            this.#workers.push(new Worker(this.#worker_path));
 
         for (let i = 0; i != this.#number_of_workers; ++i) {
             this.#workers[i].onmessage = (_event) => {
@@ -123,7 +124,7 @@ export class Web_Workers_Queue {
         if (_instance.#jobs.length === 0)
             return;
 
-        _instance.send_job(_instance.#jobs.shift());
+        _instance.send_job(_instance.#jobs.pop());
     }
 
     // Fields
@@ -132,6 +133,7 @@ export class Web_Workers_Queue {
     #workers;
     #current_jobs;
     #avaliable_workers_IDs;
+    #worker_path;
     #on_message;
 
 }
