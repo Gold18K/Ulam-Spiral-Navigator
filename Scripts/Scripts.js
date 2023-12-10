@@ -1,8 +1,11 @@
+
+// Imports
+import {
+    Web_Workers_Queue
+} from "./Web_Workers_Queue.js"
+
 // Variables
 let MILLER_RABIN_REPETITIONS = 6;
-let WORKERS                  = [];
-let WORKS                    = [];
-let CURRENT_N_OF_WORKS       = 0;
 let WORKERS_WORK_SIZE        = 150;
 let NUMBER_OF_CORES_IN_USE   = Math.max(1, navigator.hardwareConcurrency - 1);
 let CANVAS_SIDE_LENGTH_X     = Math.floor(window.innerWidth / 1);
@@ -14,6 +17,33 @@ let MOUSE_DOWN_START_Y       = 0;
 let TRANSLATION_X            = 0n;
 let TRANSLATION_Y            = 0n;
 let MOVING_CANVAS_IMAGE_DATA = null;
+
+const WEB_WORKER_QUEUE = new Web_Workers_Queue(NUMBER_OF_CORES_IN_USE, function(_event) {
+    const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
+
+    let imageData = ctx.createImageData(_event.data.grid[0].length, _event.data.grid.length);
+
+    for (let y = 0; y != _event.data.grid.length; ++y) {
+
+        for (let x = 0; x != _event.data.grid[0].length; ++x) {
+            const pos = (y * _event.data.grid[0].length + x) * 4;
+
+            imageData.data[pos]     = _event.data.grid[y][x][2] ? 255 : 25;
+            imageData.data[pos + 1] = _event.data.grid[y][x][2] ? 255 : 25;
+            imageData.data[pos + 2] = _event.data.grid[y][x][2] ? 255 : 25;
+            imageData.data[pos + 3] = 255;
+        }
+
+    }
+
+    ctx.putImageData(imageData, _event.data.grid[0][0][0], _event.data.grid[0][0][1]);
+
+    if (WEB_WORKER_QUEUE.jobs_left() === 1) {
+        document.body.style.cursor = 'default';
+        document.getElementById('Download_Button').style.cursor = 'pointer';
+    }
+
+});
 
 // Constants
 const COMPOSITE_COLOR = "rgb(25, 25, 25)"
@@ -151,9 +181,7 @@ function generate_Placeholders_Advanced() {
     document.getElementById('Change_Miller_Rabin_Repetitions').placeholder = `Miller Rabin repetitions: [1-100]`;
 }
 function resize_Canvas() {
-
-    if (WORKS.length !== 0)
-        terminate_Workers();
+    WEB_WORKER_QUEUE.terminate_workers();
 
     CANVAS_SIDE_LENGTH_X = Math.floor(window.innerWidth / 0.95);
     CANVAS_SIDE_LENGTH_Y = Math.floor(window.innerHeight / 0.95);
@@ -173,14 +201,16 @@ function resize_Canvas() {
     update_Canvas();
 }
 function update_Canvas() {
-    terminate_Workers();
+    WEB_WORKER_QUEUE.terminate_workers();
 
     document.body.style.cursor = 'wait';
+
+    let jobs = [];
 
     for (let y = 0; y != Math.floor(CANVAS_SIDE_LENGTH_Y / WORKERS_WORK_SIZE) + (CANVAS_SIDE_LENGTH_Y % WORKERS_WORK_SIZE === 0 ? 0 : 1); ++y) {
 
         for (let x = 0; x != Math.floor(CANVAS_SIDE_LENGTH_X / WORKERS_WORK_SIZE) + (CANVAS_SIDE_LENGTH_X % WORKERS_WORK_SIZE === 0 ? 0 : 1); ++x) {
-            WORKS.push({
+            jobs.push({
                 x_start:               x * WORKERS_WORK_SIZE,
                 x_end:                 Math.min((x + 1) * WORKERS_WORK_SIZE, CANVAS_SIDE_LENGTH_X),
                 y_start:               y * WORKERS_WORK_SIZE,
@@ -191,71 +221,15 @@ function update_Canvas() {
                 translation_y:         TRANSLATION_Y,
                 primality_repetitions: MILLER_RABIN_REPETITIONS
             });
-
         }
 
     }
     
-    CURRENT_N_OF_WORKS = WORKS.length;
-    WORKS              = shuffle_Array(WORKS);
+    jobs = shuffle_Array(jobs);
 
-    for (let i = 0; i != NUMBER_OF_CORES_IN_USE; ++i)
-        WORKERS.push(new Worker('Scripts/Section_Generator.js'));
+    for (let i = 0; i != jobs.length; ++i)
+        WEB_WORKER_QUEUE.send_job(jobs[i]);
 
-    for (let i = 0; i != NUMBER_OF_CORES_IN_USE; ++i)
-        execute_work(WORKERS[0], i);
-
-}
-function execute_work(_worker, _pos) {
-    const work = WORKS.pop();
-
-    if (work === undefined) {
-        WORKERS[_pos].terminate();
-        return;
-    }
-
-    _worker.postMessage(work);
-
-    _worker.onmessage = function(_event) {
-        const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
-
-        let imageData = ctx.createImageData(_event.data.grid[0].length, _event.data.grid.length);
-
-        for (let y = 0; y != _event.data.grid.length; ++y) {
-
-            for (let x = 0; x != _event.data.grid[0].length; ++x) {
-                const pos = (y * _event.data.grid[0].length + x) * 4;
-
-                imageData.data[pos]     = _event.data.grid[y][x][2] ? 255 : 25;
-                imageData.data[pos + 1] = _event.data.grid[y][x][2] ? 255 : 25;
-                imageData.data[pos + 2] = _event.data.grid[y][x][2] ? 255 : 25;
-                imageData.data[pos + 3] = 255;
-            }
-
-        }
-
-        ctx.putImageData(imageData, _event.data.grid[0][0][0], _event.data.grid[0][0][1]);
-
-        const worker_position = WORKERS.push(new Worker('Scripts/Section_Generator.js'));
-
-        execute_work(WORKERS[worker_position - 1], worker_position - 1);
-
-        if (--CURRENT_N_OF_WORKS === 0) {
-            document.body.style.cursor = 'default';
-            document.getElementById('Download_Button').style.cursor = 'pointer';
-        }
-
-        WORKERS[_pos].terminate();
-    };
-}
-function terminate_Workers() {
-    WORKS              = [];
-    CURRENT_N_OF_WORKS = 0;
-
-    for (let i = 0; i != WORKERS.length; ++i)
-        WORKERS[i].terminate();
-
-    WORKERS = [];
 }
 function isPrimeMillerRabin(n, k) {
     if (n <= 1n) return false;
@@ -407,9 +381,6 @@ function downloadCanvas() {
 
     downloadLink.click();
 }
-function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
 
 // Events
 window.addEventListener('resize', resize_Canvas, false);
@@ -420,13 +391,11 @@ window.addEventListener('mousemove', function(event) {
     if (MOVING_CANVAS_IMAGE_DATA === null)
         return;
     
-    if (WORKS.length !== 0) {
-        WORKS = [];
-        terminate_Workers();
-
-        document.body.style.cursor = 'default';
-        document.getElementById('Download_Button').style.cursor = 'pointer';
-    }
+    if (WEB_WORKER_QUEUE.jobs_left() != 0)
+        WEB_WORKER_QUEUE.terminate_workers();
+    
+    document.body.style.cursor = 'default';
+    document.getElementById('Download_Button').style.cursor = 'pointer';
 
     const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
 
@@ -444,13 +413,11 @@ window.addEventListener('touchmove', function(event) {
     if (MOVING_CANVAS_IMAGE_DATA === null)
         return;
     
-    if (WORKS.length !== 0) {
-        WORKS = [];
-        terminate_Workers();
+    if (WEB_WORKER_QUEUE.jobs_left() != 0)
+        WEB_WORKER_QUEUE.terminate_workers();
 
-        document.body.style.cursor = 'default';
-        document.getElementById('Download_Button').style.cursor = 'pointer';
-    }
+    document.body.style.cursor = 'default';
+    document.getElementById('Download_Button').style.cursor = 'pointer';
 
     const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
 
@@ -512,13 +479,9 @@ document.getElementById('Change_X').addEventListener('keydown', function(event) 
             ctx.fillStyle = COMPOSITE_COLOR;
             ctx.fillRect(0, 0, CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y);
 
-            if (WORKS.length !== 0) {
-                terminate_Workers();
-        
-                document.body.style.cursor = 'default';
-                document.getElementById('Download_Button').style.cursor = 'pointer';
-            }
-
+            document.body.style.cursor = 'default';
+            document.getElementById('Download_Button').style.cursor = 'pointer';
+            
             update_Canvas();
         }
 
@@ -557,12 +520,8 @@ document.getElementById('Change_Y').addEventListener('keydown', function(event) 
             ctx.fillStyle = COMPOSITE_COLOR;
             ctx.fillRect(0, 0, CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y);
 
-            if (WORKS.length !== 0) {
-                terminate_Workers();
-        
-                document.body.style.cursor = 'default';
-                document.getElementById('Download_Button').style.cursor = 'pointer';
-            }
+            document.body.style.cursor = 'default';
+            document.getElementById('Download_Button').style.cursor = 'pointer';
 
             update_Canvas();
         }
@@ -623,7 +582,8 @@ document.getElementById('Change_Cores').addEventListener('keydown', function(eve
             return;
 
         NUMBER_OF_CORES_IN_USE = Number(value);
-        update_Canvas();
+
+        WEB_WORKER_QUEUE.change_number_of_workers(NUMBER_OF_CORES_IN_USE);
 
         this.blur();
         event.preventDefault();
