@@ -18,7 +18,7 @@ let TRANSLATION_X            = 0n;
 let TRANSLATION_Y            = 0n;
 let MOVING_CANVAS_IMAGE_DATA = null;
 
-const WEB_WORKER_QUEUE = new Web_Workers_Queue(NUMBER_OF_CORES_IN_USE, function(_event) {
+const WEB_WORKER_QUEUE = new Web_Workers_Queue('Scripts/Section_Generator.js', NUMBER_OF_CORES_IN_USE, function(_event) {
     const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
 
     let imageData = ctx.createImageData(_event.data.grid[0].length, _event.data.grid.length);
