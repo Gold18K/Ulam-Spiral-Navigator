@@ -65,13 +65,13 @@ class Web_Workers_Queue {
                 Web_Workers_Queue.#check_available_job(this);
             };
         }
-
+        
         this.#current_jobs          = Array.from({ length: this.#number_of_workers }, () => null);
         this.#avaliable_workers_IDs = [];
 
         for (let i = 0; i != this.#number_of_workers; ++i)
             this.#avaliable_workers_IDs.push(i);
-    
+
     }
     change_number_of_workers(_new_number_of_workers) {
 
@@ -125,7 +125,7 @@ class Web_Workers_Queue {
         if (_instance.#jobs.length === 0)
             return;
 
-        _instance.send_job(_instance.#jobs.pop());
+        _instance.send_job(_instance.#jobs.pop()); // This should be shift(), not pop()!
     }
 
     // Fields
@@ -155,7 +155,7 @@ let MOVING_CANVAS_IMAGE_DATA = null;
 
 // Constants
 const COMPOSITE_COLOR  = "rgb(25, 25, 25)"
-const ERROR_CONTOUR    = "2px solid rgb(255,  70,  70)"
+const ERROR_CONTOUR    = "2px solid rgb(255, 70, 70)"
 const WEB_WORKER_QUEUE = new Web_Workers_Queue('Scripts/Section_Generator.js', NUMBER_OF_CORES_IN_USE, function(_event) {
     const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
 
@@ -327,8 +327,6 @@ function generate_Ulam_Canvas() {
     }, false);
     
     document.getElementById("Canvas_Slot").appendChild(ulam_canvas);
-
-    update_Canvas();
 }
 function enable_Download() {
     document.getElementById('Download_Button').addEventListener('click', downloadCanvas, false);
@@ -340,6 +338,8 @@ function generate_Placeholders_Advanced() {
 }
 function resize_Canvas() {
     WEB_WORKER_QUEUE.terminate_workers();
+
+    MOVING_CANVAS_IMAGE_DATA = null;
 
     CANVAS_SIDE_LENGTH_X = Math.floor(window.innerWidth / 0.95);
     CANVAS_SIDE_LENGTH_Y = Math.floor(window.innerHeight / 0.95);
@@ -549,9 +549,9 @@ window.addEventListener('mousemove', function(event) {
     if (MOVING_CANVAS_IMAGE_DATA === null)
         return;
     
-    if (WEB_WORKER_QUEUE.jobs_left() != 0)
+    if (WEB_WORKER_QUEUE.jobs_left() != 0 && (MOUSE_DOWN_START_X !== MOUSE_CURRENT_X || MOUSE_DOWN_START_Y !== MOUSE_CURRENT_Y))
         WEB_WORKER_QUEUE.terminate_workers();
-    
+
     document.body.style.cursor = 'default';
     document.getElementById('Download_Button').style.cursor = 'pointer';
 
@@ -781,4 +781,6 @@ window.onload = function() {
     generate_Ulam_Canvas();
     enable_Download();
     generate_Placeholders_Advanced();
+    
+    update_Canvas();
 };
