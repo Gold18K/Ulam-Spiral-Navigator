@@ -254,6 +254,9 @@ function generate_Ulam_Canvas() {
         if (OLD_TRANSLATION_X !== TRANSLATION_X || OLD_TRANSLATION_Y !== TRANSLATION_Y)
             update_Canvas();
 
+        else
+            navigator.clipboard.writeText(document.getElementById("Number_Info").innerText);
+
     }, false);
     ulam_canvas.addEventListener('touchend', function(_event) {
         _event.preventDefault();
@@ -286,23 +289,6 @@ function generate_Ulam_Canvas() {
         info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X},${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
                          `${number} is ${isPrimeMillerRabin(number, MILLER_RABIN_REPETITIONS) ? '' : 'not '}a prime number!`;
     }, false);
-    ulam_canvas.addEventListener('touchmove', function(event) {
-        event.preventDefault();
-    
-        const rect  = ulam_canvas.getBoundingClientRect();
-        const scaleX = ulam_canvas.width / rect.width;
-        const scaleY = ulam_canvas.height / rect.height;
-        
-        const x = Math.floor((Math.floor(Number(event.touches[0].clientX)) - rect.left) * scaleX);
-        const y = Math.floor((Math.floor(Number(event.touches[0].clientY)) - rect.top) * scaleY) + 1;
-    
-        const number = coordinates_to_number(BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X, BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y);
-    
-        const info = document.getElementById('Number_Info');
-    
-        info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X},${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
-                         `${number} is ${isPrimeMillerRabin(number, MILLER_RABIN_REPETITIONS) ? '' : 'not '}a prime number!`;
-    }, { passive: false });
     
     document.getElementById("Canvas_Slot").appendChild(ulam_canvas);
 
@@ -549,7 +535,7 @@ window.addEventListener('touchmove', function(event) {
     if (MOVING_CANVAS_IMAGE_DATA === null)
         return;
     
-    if (WEB_WORKER_QUEUE.jobs_left() != 0)
+    if (WEB_WORKER_QUEUE.jobs_left() != 0) 
         WEB_WORKER_QUEUE.terminate_workers();
 
     document.body.style.cursor = 'default';
@@ -760,3 +746,5 @@ window.onload = function() {
     enable_Download();
     generate_Placeholders_Advanced();
 };
+
+// Click and release on Canvas, copy info
