@@ -179,6 +179,24 @@ const WEB_WORKER_QUEUE = new Web_Workers_Queue('Scripts/Section_Generator.js', N
         document.getElementById('Download_Button').style.cursor = 'pointer';
     }
 
+    if (MOVING_CANVAS_IMAGE_DATA !== null) {
+
+        for (let y = 0; y < _event.data.grid.length; y++) {
+
+            for (let x = 0; x < _event.data.grid[0].length; x++) {
+                const smallIndex = (y * _event.data.grid[0].length + x) * 4;
+                const largeIndex = ((y + _event.data.grid[0][0][1]) * CANVAS_SIDE_LENGTH_X + (x + _event.data.grid[0][0][0])) * 4;
+
+                MOVING_CANVAS_IMAGE_DATA.data[largeIndex + 0] = imageData.data[smallIndex + 0];
+                MOVING_CANVAS_IMAGE_DATA.data[largeIndex + 1] = imageData.data[smallIndex + 1];
+                MOVING_CANVAS_IMAGE_DATA.data[largeIndex + 2] = imageData.data[smallIndex + 2];
+                MOVING_CANVAS_IMAGE_DATA.data[largeIndex + 3] = imageData.data[smallIndex + 3];
+            }
+
+        }
+    
+    }
+
 });
 
 // Constants
@@ -254,8 +272,22 @@ function generate_Ulam_Canvas() {
         if (OLD_TRANSLATION_X !== TRANSLATION_X || OLD_TRANSLATION_Y !== TRANSLATION_Y)
             update_Canvas();
 
-        else
+        else {
             navigator.clipboard.writeText(document.getElementById("Number_Info").innerText);
+           
+            const copied_to_clipboard = document.getElementById("Copied_To_Clipboard");
+
+            copied_to_clipboard.style.transition      = 'none';
+            copied_to_clipboard.style.backgroundColor = 'rgba(106, 177, 106, 1)';
+            copied_to_clipboard.style.color           = 'rgba(50, 50, 50, 1)';
+
+            window.getComputedStyle(copied_to_clipboard).backgroundColor;
+
+            copied_to_clipboard.style.transition = 'background-color 1.5s ease-in, color 1.5s ease-in';
+
+            copied_to_clipboard.style.backgroundColor = 'rgba(106, 177, 106, 0)';
+            copied_to_clipboard.style.color           = 'rgba(50, 50, 50, 0)';
+        }
 
     }, false);
     ulam_canvas.addEventListener('touchend', function(_event) {
@@ -286,7 +318,7 @@ function generate_Ulam_Canvas() {
 
         const info = document.getElementById('Number_Info');
 
-        info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X},${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
+        info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X}, ${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
                          `${number} is ${isPrimeMillerRabin(number, MILLER_RABIN_REPETITIONS) ? '' : 'not '}a prime number!`;
     }, false);
     
