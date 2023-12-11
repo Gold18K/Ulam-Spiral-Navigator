@@ -154,6 +154,8 @@ let TRANSLATION_Y            = 0n;
 let MOVING_CANVAS_IMAGE_DATA = null;
 
 // Constants
+const COMPOSITE_COLOR  = "rgb(25, 25, 25)"
+const ERROR_CONTOUR    = "2px solid rgb(255,  70,  70)"
 const WEB_WORKER_QUEUE = new Web_Workers_Queue('Scripts/Section_Generator.js', NUMBER_OF_CORES_IN_USE, function(_event) {
     const ctx = document.getElementById('Ulam_Canvas').getContext('2d', { willReadFrequently: true });
 
@@ -199,10 +201,6 @@ const WEB_WORKER_QUEUE = new Web_Workers_Queue('Scripts/Section_Generator.js', N
 
 });
 
-// Constants
-const COMPOSITE_COLOR = "rgb(25, 25, 25)"
-const ERROR_CONTOUR   = "2px solid rgb(255,  70,  70)"
-
 // Functions
 function generate_Ulam_Canvas() {
     const ulam_canvas = document.createElement('canvas');
@@ -220,8 +218,10 @@ function generate_Ulam_Canvas() {
     ctx.fillRect(0, 0, CANVAS_SIDE_LENGTH_X, CANVAS_SIDE_LENGTH_Y);
 
     ulam_canvas.addEventListener('mousedown', function(_event) {
-        MOUSE_DOWN_START_X = MOUSE_CURRENT_X;
-        MOUSE_DOWN_START_Y = MOUSE_CURRENT_Y;
+        MOUSE_CURRENT_X    = _event.clientX;
+        MOUSE_CURRENT_Y    = _event.clientY;
+        MOUSE_DOWN_START_X = _event.clientX;
+        MOUSE_DOWN_START_Y = _event.clientY;
 
         if (_event.button !== 0)
             return;
@@ -309,17 +309,21 @@ function generate_Ulam_Canvas() {
     
     }, { passive: false });
     ulam_canvas.addEventListener('mousemove', function(event) {
-        const rect   = ulam_canvas.getBoundingClientRect();
-        const scaleX = ulam_canvas.width / rect.width;
-        const scaleY = ulam_canvas.height / rect.height;
-        const x      = Math.floor((event.clientX - rect.left) * scaleX);
-        const y      = Math.floor((event.clientY - rect.top) * scaleY) + 1;
-        const number = coordinates_to_number(BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X, BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y);
 
-        const info = document.getElementById('Number_Info');
-
-        info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X}, ${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
-                         `${number} is ${isPrimeMillerRabin(number, MILLER_RABIN_REPETITIONS) ? '' : 'not '}a prime number!`;
+        if (MOVING_CANVAS_IMAGE_DATA === null) {
+            const rect   = ulam_canvas.getBoundingClientRect();
+            const scaleX = ulam_canvas.width / rect.width;
+            const scaleY = ulam_canvas.height / rect.height;
+            const x      = Math.floor((event.clientX - rect.left) * scaleX);
+            const y      = Math.floor((event.clientY - rect.top) * scaleY) + 1;
+            const number = coordinates_to_number(BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X, BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y);
+    
+            const info = document.getElementById('Number_Info');
+    
+            info.innerText = `Coordinates: (${BigInt(x - Math.floor(CANVAS_SIDE_LENGTH_X / 2)) + TRANSLATION_X}, ${BigInt(Math.floor(CANVAS_SIDE_LENGTH_Y / 2) - y) - TRANSLATION_Y})\n` +
+                             `${number} is ${isPrimeMillerRabin(number, MILLER_RABIN_REPETITIONS) ? '' : 'not '}a prime number!`;
+        }
+        
     }, false);
     
     document.getElementById("Canvas_Slot").appendChild(ulam_canvas);
@@ -580,7 +584,7 @@ window.addEventListener('touchmove', function(event) {
 
     ctx.putImageData(MOVING_CANVAS_IMAGE_DATA, Math.floor(Number(event.touches[0].clientX)) - MOUSE_DOWN_START_X, Math.floor(Number(event.touches[0].clientY)) - MOUSE_DOWN_START_Y);
 }, { passive: false });
-window.addEventListener('mouseup', function() {
+window.addEventListener('mouseup', function(_event) {
 
     if (MOVING_CANVAS_IMAGE_DATA === null)
         return;
@@ -778,5 +782,3 @@ window.onload = function() {
     enable_Download();
     generate_Placeholders_Advanced();
 };
-
-// Click and release on Canvas, copy info
