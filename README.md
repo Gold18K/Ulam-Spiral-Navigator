@@ -11,4 +11,6 @@ The bottom right of the window allow you to choose:
 - The number of cores the site is allowed to use to compute the spiral (Default value: The number of cores of your CPU minus one);
 - The number of cycles the Miller Rabin algorithm must use to check for primality (Default value: 6);
 
-The top right of the window allows you to download the portion of the Ulam Spiral that you computed!
+The top right of the window allows you to download the generated portion of the Ulam Spiral as a .png file;
+
+Clicking one of the pixels will let you copy to clipboard the informations about that particular pixel!
