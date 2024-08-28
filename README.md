@@ -1,5 +1,7 @@
 # Ulam Spiral Navigator
 
+You can find it here: https://gold18k.github.io/Ulam-Spiral-Navigator/
+
 Use the mouse to move around the Ulam spiral by clicking and dragging!
 
 The top left of the window will tell you the current coordinates in relation to the center of the spiral, and if the number currently pointed at is a prime number or not.
