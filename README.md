@@ -1,6 +1,8 @@
 # Ulam Spiral Navigator
 
-You can find it here: https://gold18k.github.io/Ulam-Spiral-Navigator/
+You can find it [here]([https://pages.github.com/](https://gold18k.github.io/Ulam-Spiral-Navigator/))
+
+![Demo]([https://myoctocat.com/assets/images/base-octocat.svg](https://i.ibb.co/YhRqWVg/Screenshot-2024-08-28-111554.png))
 
 Use the mouse to move around the Ulam spiral by clicking and dragging!
 
