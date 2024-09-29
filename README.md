@@ -13,7 +13,7 @@ The bottom left of the window allows you to choose a set of coordinates you wish
 The bottom right of the window allow you to choose:
 - The side length (number of pixels) of the section a single Worker is allowed to compute at a time (Default value: 150);
 - The number of cores the site is allowed to use to compute the spiral (Default value: The number of cores of your CPU minus one);
-- The number of iteration the Miller Rabin algorithm will run to check for primality (Default value: 6);
+- The number of iterations the Miller Rabin algorithm will run to check for primality (Default value: 6);
 
 The top right of the window allows you to download the generated portion of the Ulam Spiral as a .png file;
 
