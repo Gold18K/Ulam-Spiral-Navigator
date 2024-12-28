@@ -107,16 +107,6 @@ function max_BigInt(_a, _b) {
     
     return _b;
 }
-function collatz_Steps(_n) {
-    let counter = 0n;
-
-    while (_n != 1n) {
-        _n = _n % 2n === 0n ? _n / 2n : 3n * _n + 1n;
-        ++counter;
-    }
-
-    return counter;
-}
 
 // Worker's onmessage
 onmessage = function(_event) {
@@ -129,7 +119,7 @@ onmessage = function(_event) {
             const test = coordinates_to_number(BigInt(x - Math.floor(_event.data.work.canvas_x / 2)) + _event.data.work.translation_x,
                                                BigInt(Math.floor(_event.data.work.canvas_y / 2) - y) - _event.data.work.translation_y);
 
-            row.push([x, y, isPrimeMillerRabin(test, _event.data.work.primality_repetitions) ? true : false]);
+            row.push([x, y, isPrimeMillerRabin(test, _event.data.work.primality_repetitions)]);
         }
 
         result.push(row);
