@@ -2,7 +2,7 @@
 
 You can find it [here](https://gold18k.github.io/Ulam-Spiral-Navigator/)
 
-![Demo](https://i.ibb.co/HHyX3SC/Screenshot-2024-08-28-112144.png)
+![Demo](https://i.ibb.co/chBngZm/Screenshot-2025-01-27-224513.png)
 
 Use the mouse to move around the Ulam spiral by clicking and dragging!
 
