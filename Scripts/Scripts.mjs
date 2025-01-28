@@ -359,16 +359,6 @@ function max_BigInt(_a, _b) {
     
     return _b;
 }
-function collatz_Steps(_n) {
-    let counter = 0n;
-
-    while (_n != 1n) {
-        _n = _n % 2n === 0n ? _n / 2n : 3n * _n + 1n;
-        ++counter;
-    }
-
-    return counter;
-}
 function shuffle_Array(_array) {
     for (let i = _array.length - 1; i > 0; i--) {
 
