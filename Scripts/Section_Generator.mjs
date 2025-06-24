@@ -3,7 +3,13 @@
 function isPrimeMillerRabin(n, k) {
     if (n <= 1n) return false;
     if (n <= 3n) return true;
-  
+
+    const primes = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n];
+
+    for (let i = 0; i != primes.length; ++i)
+        if (n % primes[i] == 0)
+            return n == primes[i];
+    
     // Write n as d * 2^r + 1
     let r = 0n;
     let d = n - 1n;
