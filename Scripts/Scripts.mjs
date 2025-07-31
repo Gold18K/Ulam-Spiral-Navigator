@@ -492,9 +492,8 @@ document.getElementById('Change_X').addEventListener('keydown', function(event) 
             const new_Translation_X = BigInt(document.getElementById("Change_X").value);
             const new_Translation_Y = BigInt(document.getElementById("Change_Y").value);
 
-            if (new_Translation_X === TRANSLATION_X && new_Translation_Y === TRANSLATION_Y)
+            if (new_Translation_X === TRANSLATION_X && -new_Translation_Y === TRANSLATION_Y)
                 return;
-
 
             TRANSLATION_X = BigInt(document.getElementById("Change_X").value);
             TRANSLATION_Y = -BigInt(document.getElementById("Change_Y").value);
@@ -534,7 +533,7 @@ document.getElementById('Change_Y').addEventListener('keydown', function(event) 
             const new_Translation_X = BigInt(document.getElementById("Change_X").value);
             const new_Translation_Y = BigInt(document.getElementById("Change_Y").value);
 
-            if (new_Translation_X === TRANSLATION_X && new_Translation_Y === TRANSLATION_Y)
+            if (new_Translation_X === TRANSLATION_X && -new_Translation_Y === TRANSLATION_Y)
                 return;
             
             TRANSLATION_X = BigInt(document.getElementById("Change_X").value);
