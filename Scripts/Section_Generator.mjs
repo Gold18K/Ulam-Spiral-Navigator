@@ -1,21 +1,21 @@
 
+const SMALL_PRIMES = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n];
+
 // Functions
 function isPrimeMillerRabin(n, k) {
     if (n <= 1n) return false;
     if (n <= 3n) return true;
+  
+    for (const p of SMALL_PRIMES)
+        if (n % p == 0)
+            return n == p;
 
-    const primes = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n];
-
-    for (let i = 0; i != primes.length; ++i)
-        if (n % primes[i] == 0)
-            return n == primes[i];
-    
     // Write n as d * 2^r + 1
     let r = 0n;
     let d = n - 1n;
-    while (d % 2n === 0n) {
-      d /= 2n;
-      r++;
+    while ((d & 1n) === 0n) {
+        d >>= 1n;
+        r++;
     }
   
     // Witness loop
@@ -36,34 +36,38 @@ function isPrimeMillerRabin(n, k) {
     return true;
 } 
 function modPow(base, exponent, modulus) {
-    if (exponent === 0n) return 1n;
     let result = 1n;
-    base = base % modulus;
-  
+    base %= modulus;
+
     while (exponent > 0n) {
-      if (exponent % 2n === 1n) {
-        result = (result * base) % modulus;
-      }
-      exponent /= 2n;
-      base = (base * base) % modulus;
+        if ((exponent & 1n) === 1n)
+            result = (result * base) % modulus;
+        
+        base = (base * base) % modulus;
+        exponent >>= 1n;
     }
-  
+
     return result;
 }
-function randomBigIntInRange(a, b) {
-    const range = b - a + 1n; // Range = b - a + 1
-    const bits  = range.toString(2).length; // Number of bits needed
+function randomBigIntInRange(min, max) {
+    const range = max - min + 1n;
+    const bitLength = range.toString(2).length;
 
-    let randBigInt;
+    let rand;
     do {
-        randBigInt = 0n;
-        for (let i = 0; i < bits; i++) {
-            randBigInt <<= 1n;
-            randBigInt |= BigInt(Math.random() > 0.5 ? 1 : 0);
-        }
-    } while (randBigInt >= range); // Repeat if randBigInt is outside the range
+        rand = randomBits(bitLength);
+    } while (rand >= range);
 
-    return randBigInt + a; // Shift to the desired range
+    return rand + min;
+}
+function randomBits(bits) {
+    let rand = 0n;
+    const steps = Math.ceil(bits / 32);
+    for (let i = 0; i < steps; i++) {
+        const part = BigInt(Math.floor(Math.random() * (2 ** 32)));
+        rand = (rand << 32n) | part;
+    }
+    return rand >> BigInt((steps * 32) - bits);
 }
 function number_to_coordinates(n) {
     let k = Math.ceil((Math.sqrt(n) - 1) / 2);
